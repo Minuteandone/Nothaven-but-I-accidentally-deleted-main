@@ -1,4 +1,4 @@
-export const AUDIO_STORAGE_KEY = 'stormhaven.audio.v1';
+export const AUDIO_STORAGE_KEY = 'nothaven.audio.v1';
 export const DEFAULT_AUDIO_PREFERENCES = Object.freeze({ muted: true, volume: 0.35 });
 
 export function normalizeAudioPreferences(value) {

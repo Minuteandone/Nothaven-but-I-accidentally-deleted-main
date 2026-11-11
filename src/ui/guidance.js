@@ -1,7 +1,7 @@
 import { SKILLS, SKILL_UNLOCKS } from '../combat/rules.js';
 import { escapeHTML, uiButton } from './components.js';
 
-export const GUIDANCE_STORAGE_KEY = 'stormhaven.guidance.v1';
+export const GUIDANCE_STORAGE_KEY = 'nothaven.guidance.v1';
 export const GUIDANCE_TOPICS = Object.freeze(['title', 'town', 'explore', 'combat', 'levelup']);
 
 const CONTROLLER = Symbol('stormhavenGuidanceController');

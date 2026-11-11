@@ -4,7 +4,7 @@ import { migrateSave, SAVE_VERSION } from './save.js';
 export const ARCHIVE_SLOTS = Object.freeze(['1', '2', '3']);
 const validSlot = id => typeof id === 'string' && ARCHIVE_SLOTS.includes(id);
 const object = value => value !== null && typeof value === 'object' && !Array.isArray(value);
-const key = id => `stormhaven.archive.v1.${id}`;
+const key = id => `nothaven.archive.v1.${id}`;
 const storageFor = storage => storage === undefined ? globalThis.localStorage : storage;
 const validState = state => object(state) && ['town', 'explore'].includes(state.scene)
   && !state.combat && Array.isArray(state.party) && state.party.length > 0 && state.party.every(object);
