@@ -61,7 +61,7 @@ try {
         .click();
     const state = () => page.evaluate(() => structuredClone(window.game.state));
     const quick = () =>
-      page.evaluate(() => localStorage.getItem("stormhaven-save"));
+      page.evaluate(() => localStorage.getItem("nothaven-save"));
     try {
       await page.goto(base);
       await click("newGame");

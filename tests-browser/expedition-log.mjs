@@ -54,7 +54,7 @@ try {
     const snap = () =>
       page.evaluate(() => ({
         state: structuredClone(window.game.state),
-        quick: localStorage.getItem('stormhaven-save'),
+        quick: localStorage.getItem('nothaven-save'),
       }));
     const toggle = page.locator('#app [data-action="toggleExpeditionLog"]');
     try {

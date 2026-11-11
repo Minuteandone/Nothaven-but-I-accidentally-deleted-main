@@ -2,8 +2,8 @@ import { createInitialState } from '../state.js';
 import { migrateSave, SAVE_VERSION } from './save.js';
 import { boundedTree } from './archive.js';
 
-const SAVE_KEY = 'stormhaven-save';
-const AUTOSAVE_KEY = 'stormhaven-autosave';
+const SAVE_KEY = 'nothaven-save';
+const AUTOSAVE_KEY = 'nothaven-autosave';
 
 /** Matches the Archive envelope cap; a single-slot save is far smaller. */
 export const SAVE_TEXT_LIMIT = 250000;
@@ -28,7 +28,7 @@ export function exportSave() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `stormhaven-save-${new Date().toISOString().slice(0, 10)}.json`;
+  a.download = `nothaven-save-${new Date().toISOString().slice(0, 10)}.json`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);

@@ -1,4 +1,4 @@
-export const DISPLAY_STORAGE_KEY = 'stormhaven.display.v1';
+export const DISPLAY_STORAGE_KEY = 'nothaven.display.v1';
 export const TEXT_SCALES = Object.freeze([100, 115, 130]);
 export const DEFAULT_DISPLAY_PREFERENCES = Object.freeze({ textScale: 100, highContrast: false, reducedMotion: false, characterShortcuts: true });
 

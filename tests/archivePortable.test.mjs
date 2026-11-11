@@ -5,13 +5,13 @@ import { migrateSave } from '../src/core/save.js';
 import { ARCHIVE_TEXT_LIMIT, parseArchiveText, readArchiveSlot, writeArchiveSlot, exportArchiveSlot, importArchiveSlot } from '../src/core/archive.js';
 import { archiveScene } from '../src/scenes/archive.js';
 
-const key = id => `stormhaven.archive.v1.${id}`;
+const key = id => `nothaven.archive.v1.${id}`;
 const savedAt = '2026-11-05T17:00:00.000Z';
 const state = () => ({ ...createInitialState(), scene: 'town' });
 const text = (s = state()) => JSON.stringify({ version: 1, savedAt, state: s });
 const copy = v => structuredClone(v);
 function storage() {
-  const data = new Map([['stormhaven-save', 'quick save untouched']]);
+  const data = new Map([['nothaven-save', 'quick save untouched']]);
   return { data, getItem(k) { return data.get(k) ?? null; }, setItem(k, v) { data.set(k, String(v)); }, removeItem(k) { data.delete(k); } };
 }
 function setup(origin = 'town') {
@@ -36,7 +36,7 @@ test('portable round trips preserve migrated state, timestamp and independent ke
   assert.deepEqual(readArchiveSlot('2', store).state, migrateSave(before, createInitialState));
   assert.equal(readArchiveSlot('2', store).savedAt, savedAt);
   assert.equal(store.getItem(key('1')), first); assert.equal(store.getItem(key('3')), null);
-  assert.equal(store.getItem('stormhaven-save'), 'quick save untouched'); assert.deepEqual(s, before);
+  assert.equal(store.getItem('nothaven-save'), 'quick save untouched'); assert.deepEqual(s, before);
   const old = { scene: 'explore', party: [{ name: 'Earlier Warden' }], gold: 3 };
   assert.equal(importArchiveSlot('3', text(old), null, store).ok, true);
   assert.deepEqual(readArchiveSlot('3', store).state, migrateSave(old, createInitialState));
@@ -96,7 +96,7 @@ test('Title and journey imports always preview and confirm empty, occupied and i
     act(g, 'cancelArchive'); assert.equal(g.archivePending, null); assert.deepEqual([...g.archiveStorage.data], stored);
     act(g, 'previewArchiveImport', '2'); act(g, 'confirmArchive');
     assert.equal(readArchiveSlot('2', g.archiveStorage).state.gold, 321); assert.deepEqual(g.state, before);
-    assert.equal(g.archiveStorage.getItem('stormhaven-save'), 'quick save untouched');
+    assert.equal(g.archiveStorage.getItem('nothaven-save'), 'quick save untouched');
     assert.equal(g.archiveStorage.getItem(key('1')), null); assert.equal(g.archiveStorage.getItem(key('3')), null);
     assert.equal(g.archiveImportDraft, ''); assert.equal(g.archivePending, null);
   }

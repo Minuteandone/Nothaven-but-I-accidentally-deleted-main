@@ -39,7 +39,7 @@ try {
     await page.addInitScript(() => { Math.random = () => 0.5; });
     const click = (action, arg) => page.locator(`[data-action="${action}"]${arg === undefined ? '' : `[data-arg="${arg}"]`}`).first().click();
     const state = () => page.evaluate(() => structuredClone(window.game.state));
-    const quick = () => page.evaluate(() => localStorage.getItem('stormhaven-save'));
+    const quick = () => page.evaluate(() => localStorage.getItem('nothaven-save'));
     const mend = page.locator('[data-action="skill"][data-arg="mend"]');
     const preferences = async (scale, hints) => {
       await page.locator('[aria-controls="display-settings"]').click();

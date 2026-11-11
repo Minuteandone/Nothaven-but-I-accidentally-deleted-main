@@ -54,7 +54,7 @@ try {
     };
     const checkBagSearch = async () => {
       const town = await state();
-      const quick = await page.evaluate(() => localStorage.getItem('stormhaven-save'));
+      const quick = await page.evaluate(() => localStorage.getItem('nothaven-save'));
       await click('bag');
       const bag = await state();
       const inventoryNames = page.locator('.bag-group:not([aria-label="Equipped"]) .bag-list .bag-name');
@@ -65,7 +65,7 @@ try {
       assert.ok(allRecipes > 0, 'recipe catalogue is present');
       const unchanged = async () => {
         assert.deepEqual(await state(), bag, 'Bag search/sort must preserve the whole journey state');
-        assert.equal(await page.evaluate(() => localStorage.getItem('stormhaven-save')), quick);
+        assert.equal(await page.evaluate(() => localStorage.getItem('nothaven-save')), quick);
       };
       const search = async query => {
         await page.locator('#bag-search-input').fill(query);
@@ -260,7 +260,7 @@ try {
       // The earned Ridge fight must keep command labels and shortcut hints inside buttons.
       {
         const beforeLayout = await state();
-        const quickBeforeLayout = await page.evaluate(() => localStorage.getItem('stormhaven-save'));
+        const quickBeforeLayout = await page.evaluate(() => localStorage.getItem('nothaven-save'));
         const shortcutsBeforeLayout = await page.locator('html').getAttribute('data-character-shortcuts');
         await setShortcuts(true);
         for (const scale of ['115', '130']) {
@@ -297,7 +297,7 @@ try {
           assert.ok(geometry.every(row => row.button && row.label && row.hint),
             `command labels and hints fit at ${width}px/${scale}%: ${JSON.stringify(geometry)}`);
           assert.deepEqual(await state(), beforeLayout, 'layout preferences must preserve the whole fight');
-          assert.equal(await page.evaluate(() => localStorage.getItem('stormhaven-save')), quickBeforeLayout);
+          assert.equal(await page.evaluate(() => localStorage.getItem('nothaven-save')), quickBeforeLayout);
           await fit(`combat-command-${scale}`);
         }
         await page.locator('[aria-controls="display-settings"]').click();
@@ -305,7 +305,7 @@ try {
         await page.locator('[data-display-done]').click();
         await setShortcuts(shortcutsBeforeLayout !== 'off');
         assert.deepEqual(await state(), beforeLayout);
-        assert.equal(await page.evaluate(() => localStorage.getItem('stormhaven-save')), quickBeforeLayout);
+        assert.equal(await page.evaluate(() => localStorage.getItem('nothaven-save')), quickBeforeLayout);
       }
       await fit('combat');
       const beforeCommands = await state();
@@ -323,7 +323,7 @@ try {
       assert.deepEqual(await state(), beforeCommands, 'opening skills must not take a turn');
       // The earned level-one fight previews future skills without activating them.
       {
-        const quickBefore = await page.evaluate(() => localStorage.getItem('stormhaven-save'));
+        const quickBefore = await page.evaluate(() => localStorage.getItem('nothaven-save'));
         const upcoming = await page.evaluate(async () => {
           const { SKILLS, SKILL_UNLOCKS } = await import('/src/combat/rules.js');
           const level = window.game.state.party[0].level;
@@ -369,7 +369,7 @@ try {
           assert.equal(await page.locator('[data-action="skill"]').count(), 2);
           await page.keyboard.press('3');
           assert.deepEqual(await state(), beforeCommands, 'opening upcoming skills or pressing an unused digit is free');
-          assert.equal(await page.evaluate(() => localStorage.getItem('stormhaven-save')), quickBefore);
+          assert.equal(await page.evaluate(() => localStorage.getItem('nothaven-save')), quickBefore);
           await fit(`upcoming-skills-${scale}`);
           await summary.click();
           assert.equal(await disclosure.getAttribute('open'), null);
@@ -379,7 +379,7 @@ try {
         await page.locator('[data-display-scale]').selectOption('100');
         await page.locator('[data-display-done]').click();
         assert.deepEqual(await state(), beforeCommands);
-        assert.equal(await page.evaluate(() => localStorage.getItem('stormhaven-save')), quickBefore);
+        assert.equal(await page.evaluate(() => localStorage.getItem('nothaven-save')), quickBefore);
       }
       await fit('combat-skills');
       await page.keyboard.press('Escape');
@@ -418,7 +418,7 @@ try {
       // A genuinely purchased ration previews immediate healing, not the enemy reply.
       {
         const beforeItem = await state();
-        const itemQuick = await page.evaluate(() => localStorage.getItem('stormhaven-save'));
+        const itemQuick = await page.evaluate(() => localStorage.getItem('nothaven-save'));
         assert.equal(beforeItem.party.length, 1, 'this earned fixture is solo Wren');
         assert.equal(beforeItem.party[0].name, 'Wren');
         assert.equal(beforeItem.party[0].maxHp, 30);
@@ -437,7 +437,7 @@ try {
           assert.ok((await page.locator('.item-recipient-note').allTextContents()).includes(
             'Preview shows immediate restoration before allies act and the normal enemy reply, not end-of-turn totals.'));
           assert.deepEqual(await state(), snapshot, 'preview and device controls preserve the whole earned journey');
-          assert.equal(await page.evaluate(() => localStorage.getItem('stormhaven-save')), itemQuick);
+          assert.equal(await page.evaluate(() => localStorage.getItem('nothaven-save')), itemQuick);
         };
         await click('menu', 'items');
         await checkPreview(beforeItem, expectedHeal, 3);
@@ -482,7 +482,7 @@ try {
         assert.ok(itemLines.some(line => line.startsWith('Wren: Trail Rations:') && line.includes(`restored ${expectedHeal} hp`)),
           `immediate item log matches preview: ${JSON.stringify(itemLines)}`);
         assert.ok(afterItem.party[0].hp < beforeItem.party[0].hp + expectedHeal, 'ordinary enemy reply follows immediate healing');
-        assert.equal(await page.evaluate(() => localStorage.getItem('stormhaven-save')), itemQuick);
+        assert.equal(await page.evaluate(() => localStorage.getItem('nothaven-save')), itemQuick);
         await click('menu', 'items');
         await checkPreview(afterItem, Math.min(10, 30 - afterItem.party[0].hp), 2);
         await page.keyboard.press('Escape');
@@ -494,7 +494,7 @@ try {
       // This receipt was earned through the original solo Ridge route, not injected.
       {
         const victory = await state();
-        const quick = await page.evaluate(() => localStorage.getItem('stormhaven-save'));
+        const quick = await page.evaluate(() => localStorage.getItem('nothaven-save'));
         assert.equal(victory.combat.enemy.id, 'ridge_bandit');
         assert.equal(victory.party.length, 1);
         assert.deepEqual(victory.combat.rewards, { xp: 10, gold: 9, items: [] });
@@ -509,7 +509,7 @@ try {
           assert.equal(await receipt.textContent(), '+10 XP · +9 gold');
           assert.equal((await receipt.textContent()).includes('Found:'), false, 'the retained RNG earns no loot');
           assert.deepEqual(await state(), victory, 'reading rewards must not pay them again');
-          assert.equal(await page.evaluate(() => localStorage.getItem('stormhaven-save')), quick);
+          assert.equal(await page.evaluate(() => localStorage.getItem('nothaven-save')), quick);
           assert.equal(await page.locator('[data-action="finish"]').isEnabled(), true);
         };
         await unchangedReceipt();
@@ -590,7 +590,7 @@ try {
       assert.equal((await state()).gold, saved.gold);
       assert.equal((await state()).map.clearedEncounters.ridge_patrol, true);
       const beforeJournal = await state();
-      const journalQuick = await page.evaluate(() => localStorage.getItem('stormhaven-save'));
+      const journalQuick = await page.evaluate(() => localStorage.getItem('nothaven-save'));
       await click('openJournal');
       const journalState = await state();
       assert.deepEqual({ ...journalState, scene: 'explore' }, beforeJournal);
@@ -616,7 +616,7 @@ try {
         assert.deepEqual(await state(), journalState);
         const journalUnchanged = async () => {
           assert.deepEqual(await state(), journalState, 'Journal controls must preserve the whole journey');
-          assert.equal(await page.evaluate(() => localStorage.getItem('stormhaven-save')), journalQuick);
+          assert.equal(await page.evaluate(() => localStorage.getItem('nothaven-save')), journalQuick);
           assert.equal(await page.locator('.bestiary-overview').textContent(), journalOverview);
           assert.equal(await page.locator('.bestiary-comparison').textContent(), journalTray);
         };
@@ -703,9 +703,9 @@ try {
       assert.deepEqual(await state(), beforeJournal, 'Back must restore the whole expedition state');
       // Three manual checkpoints, earned through the same fresh-game route.
       const archiveOriginal = await state();
-      const archiveKey = id => `stormhaven.archive.v1.${id}`;
+      const archiveKey = id => `nothaven.archive.v1.${id}`;
       const stored = key => page.evaluate(key => localStorage.getItem(key), key);
-      const quickSave = await stored('stormhaven-save');
+      const quickSave = await stored('nothaven-save');
       await click('openArchive');
       const archiveOpen = { ...archiveOriginal, scene: 'archive' };
       assert.deepEqual(await state(), archiveOpen);
@@ -758,16 +758,16 @@ try {
       assert.equal(await stored(archiveKey('2')), slotTwo);
       await click('deleteArchive', '2'); await click('confirmArchive');
       assert.equal(await stored(archiveKey('2')), null);
-      assert.equal(await stored('stormhaven-save'), quickSave);
+      assert.equal(await stored('nothaven-save'), quickSave);
       await click('leaveArchive'); assert.deepEqual(await state(), archiveOriginal);
       await page.reload(); await click('archive');
       assert.equal(await page.locator('[data-action="saveArchive"]:disabled').count(), 3);
       await click('loadArchive', '1'); await click('confirmArchive');
       assert.deepEqual(await state(), archiveOriginal, 'Title archive load restores the whole expedition');
-      assert.equal(await stored('stormhaven-save'), quickSave);
+      assert.equal(await stored('nothaven-save'), quickSave);
       // Transfer only the checkpoint earned above, never injected progress or storage.
       const journeyStorage = p => p.evaluate(() => Object.fromEntries(Object.entries(localStorage)
-        .filter(([key]) => key === 'stormhaven-save' || key.startsWith('stormhaven.archive.'))));
+        .filter(([key]) => key === 'nothaven-save' || key.startsWith('nothaven.archive.'))));
       const transferFit = async p => {
         assert.equal(await p.evaluate(() => document.documentElement.scrollWidth), width);
         const controls = await p.locator('.archive-transfer textarea, .archive-transfer button, .archive-buttons button')

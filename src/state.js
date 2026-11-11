@@ -1,7 +1,7 @@
 import { createStoryState } from './story/index.js';
 import { SAVE_VERSION, migrateSave } from './core/save.js';
-const SAVE_KEY = 'stormhaven-save';
-const AUTOSAVE_KEY = 'stormhaven-autosave';
+const SAVE_KEY = 'nothaven-save';
+const AUTOSAVE_KEY = 'nothaven-autosave';
 const AUTOSAVE_INTERVAL_MS = 5 * 60 * 1000; // 5 minutes
 
 let _autosaveTimer = null;

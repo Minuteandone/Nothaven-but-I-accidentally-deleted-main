@@ -68,7 +68,7 @@ try {
     const snapshot = () =>
       page.evaluate(() => ({
         state: structuredClone(window.game.state),
-        quick: localStorage.getItem('stormhaven-save'),
+        quick: localStorage.getItem('nothaven-save'),
       }));
     const inView = async (id) => {
       const b = await page.locator(`#${id} h2`).boundingBox();
