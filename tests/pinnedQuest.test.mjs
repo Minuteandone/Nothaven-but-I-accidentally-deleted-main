@@ -73,10 +73,10 @@ test('pin preference survives quick save and each Archive slot; no automatic sto
   globalThis.localStorage = storage;
   t.after(() => { if (previous === undefined) delete globalThis.localStorage; else globalThis.localStorage = previous; });
   const s = state('explore');
-  saveGame(s); const oldQuick = storage.getItem('stormhaven-save');
+  saveGame(s); const oldQuick = storage.getItem('nothaven-save');
   pinQuest(s, 'road'); renderPinnedQuest(s);
-  assert.equal(storage.getItem('stormhaven-save'), oldQuick);
-  saveGame(s); const quick = storage.getItem('stormhaven-save');
+  assert.equal(storage.getItem('nothaven-save'), oldQuick);
+  saveGame(s); const quick = storage.getItem('nothaven-save');
   assert.deepEqual(loadGame(), s);
   for (const id of ARCHIVE_SLOTS) {
     assert.equal(writeArchiveSlot(id, s, null, { storage }).ok, true);
@@ -84,7 +84,7 @@ test('pin preference survives quick save and each Archive slot; no automatic sto
     assert.equal(getPinnedQuest(readArchiveSlot(id, storage).state).id, 'road');
   }
   unpinQuest(s, 'road');
-  assert.equal(storage.getItem('stormhaven-save'), quick);
+  assert.equal(storage.getItem('nothaven-save'), quick);
   assert.equal(readArchiveSlot('1', storage).state.pinnedQuestId, 'road');
 });
 

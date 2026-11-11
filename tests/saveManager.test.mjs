@@ -5,8 +5,8 @@ import { bus } from '../src/events.js';
 import { exportSave, importSave, validateImportSave, commitImportSave, deleteSave, SAVE_TEXT_LIMIT } from '../src/core/saveManager.js';
 import { SAVE_VERSION } from '../src/core/save.js';
 
-const SAVE_KEY = 'stormhaven-save';
-const AUTOSAVE_KEY = 'stormhaven-autosave';
+const SAVE_KEY = 'nothaven-save';
+const AUTOSAVE_KEY = 'nothaven-autosave';
 const EGG_RE = /\b(egg|yolk|hatch|lay|nest|roost|brood|coop|fowl|flock|talon|beak|plumage|fledgling|peck|yoke|layer|ovoid|oval|ellipse|shell|crack|chick|hen|rooster|easter)\b/i;
 
 function storage() {

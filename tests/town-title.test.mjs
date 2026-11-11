@@ -25,7 +25,7 @@ test('new journey resets story transients and enters town', () => {
 test('continue clears story transients after loading a valid save', () => {
   const saved = createInitialState();
   saved.gold = 47;
-  globalThis.localStorage = { getItem: key => key === 'stormhaven-save' ? JSON.stringify(saved) : null };
+  globalThis.localStorage = { getItem: key => key === 'nothaven-save' ? JSON.stringify(saved) : null };
   try {
     const game = gameStub();
     titleScene.actions.continue(game);

@@ -11,7 +11,7 @@ import { exploreScene } from '../src/map/exploreScene.js';
 import { ensureMapState } from '../src/map/mapState.js';
 import { createCompanionMember, dismissCompanion } from '../src/party/companions.js';
 
-const key = id => `stormhaven.archive.v1.${id}`;
+const key = id => `nothaven.archive.v1.${id}`;
 const date = () => new Date('2026-11-05T17:00:00.000Z');
 function storage() {
   const data = new Map();
@@ -39,7 +39,7 @@ test('three archive slots preserve optional journey data and the independent qui
   assert.equal(dismissCompanion(s, 'bram').ok, true);
   assert.deepEqual(s.reserve, { bram });
   s.story.ending = 'protect_town'; s.map.x = 3; s.map.y = 2;
-  const before = copy(s); store.setItem('stormhaven-save', 'original quick save');
+  const before = copy(s); store.setItem('nothaven-save', 'original quick save');
   for (const id of ARCHIVE_SLOTS) {
     assert.deepEqual(writeArchiveSlot(id, s, null, { storage: store, now: date }), { ok: true });
     const read = readArchiveSlot(id, store);
@@ -50,7 +50,7 @@ test('three archive slots preserve optional journey data and the independent qui
     assert.deepEqual(read.state.party[1], sela);
     assert.equal(Object.hasOwn(read.state, 'reserves'), false);
   }
-  assert.deepEqual(s, before); assert.equal(store.getItem('stormhaven-save'), 'original quick save');
+  assert.deepEqual(s, before); assert.equal(store.getItem('nothaven-save'), 'original quick save');
   assert.equal(store.data.size, 4);
   const raw = store.getItem(key('2'));
   assert.deepEqual(deleteArchiveSlot('2', raw, store), { ok: true });
@@ -119,12 +119,12 @@ test('overwrite and delete require confirmation; cancel is state/storage neutral
 
 test('loading requires confirmation and restores field coordinates without writing quick save', () => {
   const g = setup('explore'); g.state.map.x = 3; g.state.map.y = 2;
-  g.archiveStorage.setItem('stormhaven-save', 'untouched'); act(g, 'saveArchive', '1');
+  g.archiveStorage.setItem('nothaven-save', 'untouched'); act(g, 'saveArchive', '1');
   g.state.gold = 1; g.state.map.x = 1; const before = copy(g.state);
   act(g, 'loadArchive', '1'); assert.deepEqual(g.state, before); act(g, 'cancelArchive'); assert.deepEqual(g.state, before);
   act(g, 'loadArchive', '1'); act(g, 'confirmArchive');
   assert.equal(g.state.scene, 'explore'); assert.equal(g.state.map.x, 3); assert.equal(g.state.map.y, 2); assert.equal(g.state.gold, 20);
-  assert.equal(g.archiveStorage.getItem('stormhaven-save'), 'untouched');
+  assert.equal(g.archiveStorage.getItem('nothaven-save'), 'untouched');
   assert.equal(g.archiveReturn, undefined); assert.equal(g.archivePending, undefined); assert.equal(g.storyDialogue, null);
 });
 
@@ -193,10 +193,10 @@ test('optional entry actions and installer preserve scene contracts', () => {
 test('shared resume follows existing Continue fallback and leaves quick save unchanged', t => {
   const store = storage(); const old = globalThis.localStorage; globalThis.localStorage = store;
   t.after(() => { if (old === undefined) delete globalThis.localStorage; else globalThis.localStorage = old; });
-  const original = state('town'); original.gold = 73; saveGame(original); const quick = store.getItem('stormhaven-save');
+  const original = state('town'); original.gold = 73; saveGame(original); const quick = store.getItem('nothaven-save');
   const g = setup('title'); titleScene.actions.continue(g);
   assert.equal(g.state.scene, 'town'); assert.equal(g.state.gold, 73); assert.equal(g.state.map.zoneId, 'greyhaven');
-  assert.equal(store.getItem('stormhaven-save'), quick);
+  assert.equal(store.getItem('nothaven-save'), quick);
   const malformed = state('explore'); malformed.map.zoneId = 'constructor'; malformed.location = 'constructor';
   resumeJourney(g, malformed); assert.equal(g.state.scene, 'town'); assert.equal(g.state.location, 'greyhaven');
 });

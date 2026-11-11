@@ -63,7 +63,7 @@ try {
     const snap = () =>
       page.evaluate(() => ({
         state: structuredClone(window.game.state),
-        quick: localStorage.getItem("stormhaven-save"),
+        quick: localStorage.getItem("nothaven-save"),
       }));
     try {
       const homeCache = "Zone caches: None in Greyhaven.";
