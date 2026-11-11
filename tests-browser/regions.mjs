@@ -42,7 +42,7 @@ try {
       const control = (action, arg) => page.locator(`#app [data-action="${action}"]${arg === undefined ? '' : `[data-arg="${arg}"]`}`).first();
       const click = (action, arg) => control(action, arg).click();
       const state = () => page.evaluate(() => structuredClone(window.game.state));
-      const quick = () => page.evaluate(() => localStorage.getItem('stormhaven-save'));
+      const quick = () => page.evaluate(() => localStorage.getItem('nothaven-save'));
       const fit = async (label, selector) => {
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth), width, `${id} ${label}: document fits`);
         const bounds = await page.locator(selector).evaluateAll(nodes => nodes.map(node => {

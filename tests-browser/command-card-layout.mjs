@@ -34,7 +34,7 @@ try {
     page.on('pageerror', e => errors.push(e.message));
     await page.goto(base);
     const before = await page.evaluate(() => JSON.stringify(game.state));
-    const quickBefore = await page.evaluate(() => localStorage.getItem('stormhaven-save'));
+    const quickBefore = await page.evaluate(() => localStorage.getItem('nothaven-save'));
     for (const scale of ['100', '115', '130']) for (const shortcuts of [true, false]) {
       await page.locator('[aria-controls="display-settings"]').click();
       await page.locator('[data-display-scale]').selectOption(scale);
@@ -80,7 +80,7 @@ try {
           for (const glyph of card.glyphs) assert.ok(glyph.left >= -1 && glyph.right <= width + 1, `${context}: glyph overflow`);
         }
         assert.equal(await page.evaluate(() => JSON.stringify(game.state)), before);
-        assert.equal(await page.evaluate(() => localStorage.getItem('stormhaven-save')), quickBefore);
+        assert.equal(await page.evaluate(() => localStorage.getItem('nothaven-save')), quickBefore);
         if (width === 320 && scale === '130' && shortcuts && menu === 'items')
           await page.locator('[data-action="item"][data-arg="bandage"]').screenshot({ path: path.join(artifacts, 'card-title-bandage-320-130.png') });
         renders++;

@@ -59,7 +59,7 @@ try {
     const snap = () =>
       page.evaluate(() => ({
         state: structuredClone(window.game.state),
-        quick: localStorage.getItem("stormhaven-save"),
+        quick: localStorage.getItem("nothaven-save"),
       }));
     async function check(literal, label) {
       const before = await snap();
